@@ -1,3 +1,4 @@
+import json
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -9,10 +10,13 @@ import cvzone
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 def measurements():
+    print("here")
     cap = cv2.VideoCapture(0)
+    cap.set(3, 900)
+    cap.set(4, 720)
     start_time = time.time()
     capture_duration = 20
-    landmarks = "null"
+    landmarks = ""
     d=0
     detector = HandDetector(detectionCon=0.8, maxHands=1)
     detector = FaceMeshDetector(maxFaces=1)
@@ -102,23 +106,60 @@ def measurements():
         cap.release()
         cv2.destroyAllWindows()
     
-    if landmarks!="null":
+    if len(landmarks)!=0:
         s2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x
         t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
         s1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x
         t1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y
         shoulderslength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )+1
-        shoulderslength =round(shoulderslength)
+        shoulderslength = round(shoulderslength)
 
         x2 = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x
         y2 = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y
         x1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x
         y1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y
         RightArmlength = (math.hypot(x2 - x1, y2 - y1)) * 39.37
+        RightArmlength = round(RightArmlength)
 
+        s2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x
+        t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
+        s1 = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x
+        t1 = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y
+        fullLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )+1
+        fullLength =round(fullLength)
+
+        s2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x
+        t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
+        s1 = landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x
+        t1 = landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y
+        kneeLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )+1
+        kneeLength =round(kneeLength)
+
+        s2 = landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x
+        t2 = landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y
+        s1 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x
+        t1 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y
+        waistLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )+1
+        waistLength =round(waistLength)
+
+
+        bodymeasurement = {
+            'shoulders' :shoulderslength,
+            'arms':RightArmlength,
+            'fullLength':fullLength,
+            "knee": kneeLength
+        }
         print("Shoulders Length: ",shoulderslength)
         print("Right Arm Length: ",RightArmlength)
-        return shoulderslength
+        obj = {
+            'msg':"Detected",
+            'data':bodymeasurement
+        }
+        return obj
     else:
-        return "not detected"
+        obj = {
+            'msg':"Measurements not detected accurately",
+            'data':"null"
+        }
+        return obj
     
