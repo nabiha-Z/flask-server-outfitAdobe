@@ -1,4 +1,5 @@
 import database
+import json
 from flask_cors import CORS
 from flask import Flask,jsonify,request
 import bodymeasurements
@@ -12,8 +13,18 @@ def measurements():
     print("Dksjdk")
     responseObj = bodymeasurements.measurements()
     print(responseObj)
-    # database.db.user_collection.insert_one(responseObj.data);
-    # print("Data added to database")
+    # print(responseObj.data)
+    print(type(responseObj))
+    if(responseObj['msg'] == "true"):
+
+        print(type(responseObj['data']))
+        val = json.dumps(responseObj['data'])
+        print(val)
+        print("type:", type(val))
+        database.db.measurements.insert_one(responseObj['data'])
+        print("Data added to database")
+    else:
+        print("not detected")
     return "Done"
     
 if __name__ == "__main__":

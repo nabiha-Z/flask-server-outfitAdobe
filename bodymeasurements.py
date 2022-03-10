@@ -12,6 +12,7 @@ mp_pose = mp.solutions.pose
 def measurements():
     print("here")
     cap = cv2.VideoCapture(0)
+    print("capture")
     cap.set(3, 900)
     cap.set(4, 720)
     start_time = time.time()
@@ -149,17 +150,23 @@ def measurements():
             'fullLength':fullLength,
             "knee": kneeLength
         }
+
+        # bodymeasurement = {
+        #     'shoulders' :14,
+        #     'arms':21,
+        #     'fullLength':52,
+        #     "knee": 35
+        # }
         print("Shoulders Length: ",shoulderslength)
         print("Right Arm Length: ",RightArmlength)
         obj = {
-            'msg':"Detected",
+            'msg':"true",
             'data':bodymeasurement
         }
         return obj
     else:
         obj = {
-            'msg':"Measurements not detected accurately",
-            'data':"null"
+            'msg': "false"
         }
         return obj
     
