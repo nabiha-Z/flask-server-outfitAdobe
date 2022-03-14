@@ -18,17 +18,19 @@ def measurements():
     print(responseObj)
     # print(responseObj.data)
     print(type(responseObj))
+    check = "false"
     if(responseObj['msg'] == "true"):
 
         print(type(responseObj['data']))
         val = json.dumps(responseObj['data'])
         print(val)
+        check="true"
         print("type:", type(val))
         database.db.measurements.insert_one(responseObj['data'])
         print("Data added to database")
     else:
         print("not detected")
-    return "Done"
+    return check
     
 if __name__ == "__main__":
     app.run(debug=True)

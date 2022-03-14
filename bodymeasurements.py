@@ -9,14 +9,14 @@ from cvzone.FaceMeshModule import FaceMeshDetector
 import cvzone
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-def measurements(uid):
+def measurements(user):
     print("here")
     cap = cv2.VideoCapture(0)
     print("capture")
-    cap.set(3, 850)
-    cap.set(4, 850)
+    cap.set(3, 1280)
+    cap.set(4, 950)
     start_time = time.time()
-    capture_duration = 20
+    capture_duration = 30
     landmarks = ""
     d=0
     detector = FaceMeshDetector(maxFaces=1)
@@ -113,8 +113,10 @@ def measurements(uid):
         t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
         s1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x
         t1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y
-        shoulderslength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )+1
+        shoulderslength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )
         shoulderslength = round(shoulderslength)
+        # shoulderslength1 = int(abs(landmarks[12][1]+landmarks[11][1])/2)
+        print("shoulders: ", shoulderslength)
 
         x2 = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x
         y2 = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y
@@ -141,16 +143,37 @@ def measurements(uid):
         t2 = landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y
         s1 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x
         t1 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y
-        waistLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )+1
+        # waistLength =int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
+        waistLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 3
         waistLength =round(waistLength)
+        print("waist: ", waistLength)
+        waistLength = waistLength + waistLength
 
+        s2 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x
+        t2 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y
+        s1 = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x
+        t1 = landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y
+        # waistLength =int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
+        bottomLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 6
+        bottomLength =round(bottomLength)
 
+        s2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x
+        t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
+        s1 = landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x
+        t1 = landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y
+        tshirt = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 2
+        tshirt =round(tshirt)
+
+    
         bodymeasurement = {
             'shoulders' :shoulderslength,
-            'arms':RightArmlength,
             'fullLength':fullLength,
+            'arms':RightArmlength,
             "knee": kneeLength,
-            'user':uid
+            "tshirt":tshirt,
+            'bottom':bottomLength,
+            "waist":waistLength,
+            'user':user
         }
 
         # bodymeasurement = {
@@ -159,8 +182,7 @@ def measurements(uid):
         #     'fullLength':52,
         #     "knee": 35
         # }
-        print("Shoulders Length: ",shoulderslength)
-        print("Right Arm Length: ",RightArmlength)
+       
         obj = {
             'msg':"true",
             'data':bodymeasurement
@@ -171,4 +193,5 @@ def measurements(uid):
             'msg': "false"
         }
         return obj
+
     
