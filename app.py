@@ -8,13 +8,19 @@ app = Flask(__name__)
 cors=CORS()
 cors.init_app(app)
 
-@app.route("/", methods=['POST'])
+@app.route("/home", methods=['GET'])
+def home():
+    
+    print("Dksjdk")
+    return "true"
+
+@app.route("/measurements", methods=['POST'])
 def measurements():
     if not request.json :
         abort(400)
     print("Dksjdk")
     print(request.json['user'])
-    responseObj = bodymeasurements.measurements(request.json['user'])
+    responseObj = bodymeasurements.measurements("6258b68a5992c70023c5724b")
     print(responseObj)
     # print(responseObj.data)
     print(type(responseObj))
@@ -31,6 +37,8 @@ def measurements():
     else:
         print("not detected")
     return check
+
+
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='192.168.100.2',port=5000,debug=True)
