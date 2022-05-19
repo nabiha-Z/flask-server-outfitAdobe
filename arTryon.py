@@ -13,7 +13,8 @@ startdistance = None
 neck_point_xaxis = 500
 neck_point_yaxis = 500
 scaling = 0
-
+start_time = time.time()
+capture_duration = 30
 cap = cv2.VideoCapture(0) #0 for irium 1 for webcam
 cap.set(3,1300)   #width
 cap.set(4,950)    #height
@@ -21,7 +22,7 @@ cap.set(10,200)
 takeSS = False
 detector = HandDetector(detectionCon=0.8)
 
-while (cap.isOpened()):
+while (int(time.time() - start_time) < capture_duration):
     success, img = cap.read()
     #1 means horizontal 
     img = cv2.flip(img,1)
@@ -32,7 +33,7 @@ while (cap.isOpened()):
     if stopAR == False:
         
         cloth = cv2.imread("dress2.png", cv2.IMREAD_UNCHANGED)
-        cloth = cv2.resize(cloth, (400,400))
+        cloth = cv2.resize(cloth, (410,410))
         img.flags.writeable = False
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = pose.process(img)
@@ -53,8 +54,9 @@ while (cap.isOpened()):
                     startdistance = length_of_shoulders
                     length_of_shoulders = abs(bodylmlist[12][1]-bodylmlist[11][1])
                     scaling = int((length_of_shoulders-startdistance)/2)
+                    length = bodylmlist[24][2]-27
                     neck_point_xaxis = int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
-                    neck_point_yaxis = int(abs(bodylmlist[12][2]+bodylmlist[24][2])/2)
+                    neck_point_yaxis = int(abs(bodylmlist[12][2]+length)/2)
                 else:
                     startdistance = None
         except:

@@ -193,5 +193,4 @@ def measurements(user):
             'msg': "false"
         }
         return obj
-
     
