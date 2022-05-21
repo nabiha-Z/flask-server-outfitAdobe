@@ -19,7 +19,7 @@ def measurements(user):
     capture_duration = 30
     landmarks = ""
     d=0
-    detector = FaceMeshDetector(maxFaces=1)
+    detector = FaceMeshDetector(maxFaces=1) 
     # detector = HandDetector(detectionCon=0.8, maxHands=1)
     # detector = FaceMeshDetector(maxFaces=1)
 

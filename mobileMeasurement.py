@@ -10,7 +10,7 @@ from cvzone.FaceMeshModule import FaceMeshDetector
 import cvzone
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-def mobilemeasurements(uploaded_file):
+def mobilemeasurements(uploaded_file,user):
     
     print("uploaded file name: ",uploaded_file.name)
     uploaded_file.save('user_videos/video.mp4')
@@ -202,7 +202,6 @@ def mobilemeasurements(uploaded_file):
         tshirt = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 2
         tshirt =round(tshirt)
 
-    
         bodymeasurement = {
             'shoulders' :shoulderslength,
             'fullLength':fullLength,
@@ -213,14 +212,6 @@ def mobilemeasurements(uploaded_file):
             "waist":waistLength,
             'user':user
         }
-
-        # bodymeasurement = {
-        #     'shoulders' :14,
-        #     'arms':21,
-        #     'fullLength':52,
-        #     "knee": 35
-        # }
-       
         obj = {
             'msg':"true",
             'data':bodymeasurement
@@ -230,4 +221,4 @@ def mobilemeasurements(uploaded_file):
         obj = {
             'msg': "false"
         }
-        return 'true'
+        return obj
