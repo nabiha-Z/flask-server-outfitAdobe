@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 from cvzone.HandTrackingModule import HandDetector
@@ -6,22 +5,33 @@ import cvzone
 import time
 import mediapipe as mp
 
-stopAR = False
-mp_pose = mp.solutions.pose
-pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
-startdistance = None
-neck_point_xaxis = 500
-neck_point_yaxis = 500
-scaling = 0
+# stopAR = False
+# mp_pose = mp.solutions.pose
+# pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
+# startdistance = None
+# neck_point_xaxis = 500
+# neck_point_yaxis = 500
+# scaling = 0
+# start_time = time.time()
+# capture_duration = 30
 def mobileTryOn(video):
-    cap = cv2.VideoCapture(video) #0 for irium 1 for webcam
+    stopAR = False
+    mp_pose = mp.solutions.pose
+    pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
+    startdistance = None
+    neck_point_xaxis = 500
+    neck_point_yaxis = 500
+    scaling = 0
+    start_time = time.time()
+    capture_duration = 30
+    cap = cv2.VideoCapture(video) 
     cap.set(3,1300)   #width
     cap.set(4,950)    #height
     cap.set(10,200)
-    takeSS = False      
+    takeSS = False
     detector = HandDetector(detectionCon=0.8)
 
-    while (cap.isOpened()):
+    while (int(time.time() - start_time) < capture_duration):
         success, img = cap.read()
         #1 means horizontal 
         img = cv2.flip(img,1)
@@ -32,7 +42,7 @@ def mobileTryOn(video):
         if stopAR == False:
             
             cloth = cv2.imread("dress2.png", cv2.IMREAD_UNCHANGED)
-            cloth = cv2.resize(cloth, (200,200))
+            cloth = cv2.resize(cloth, (180,180))
             img.flags.writeable = False
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = pose.process(img)
@@ -53,7 +63,7 @@ def mobileTryOn(video):
                         startdistance = length_of_shoulders
                         length_of_shoulders = abs(bodylmlist[12][1]-bodylmlist[11][1])
                         scaling = int((length_of_shoulders-startdistance)/2)
-                        length = bodylmlist[24][2]-5
+                        length = bodylmlist[24][2]-50
                         neck_point_xaxis = int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
                         neck_point_yaxis = int(abs(bodylmlist[12][2]+length)/2)
                     else:
