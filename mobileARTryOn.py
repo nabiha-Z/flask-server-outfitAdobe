@@ -5,25 +5,17 @@ import cvzone
 import time
 import mediapipe as mp
 
-# stopAR = False
-# mp_pose = mp.solutions.pose
-# pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
-# startdistance = None
-# neck_point_xaxis = 500
-# neck_point_yaxis = 500
-# scaling = 0
-# start_time = time.time()
-# capture_duration = 30
+stopAR = False
+mp_pose = mp.solutions.pose
+pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
+startdistance = None
+neck_point_xaxis = 500
+neck_point_yaxis = 500
+scaling = 0
+start_time = time.time()
+capture_duration = 30
 def mobileTryOn(video):
-    stopAR = False
-    mp_pose = mp.solutions.pose
-    pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
-    startdistance = None
-    neck_point_xaxis = 500
-    neck_point_yaxis = 500
-    scaling = 0
-    start_time = time.time()
-    capture_duration = 30
+    
     cap = cv2.VideoCapture(video) 
     cap.set(3,1300)   #width
     cap.set(4,950)    #height
@@ -98,4 +90,4 @@ def mobileTryOn(video):
             break
     cap.release()
     cv2.destroyAllWindows()
-mobileTryOn('TestingVideo3.mp4')
+# mobileTryOn('TestingVideo3.mp4')

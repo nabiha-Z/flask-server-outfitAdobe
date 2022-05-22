@@ -5,9 +5,7 @@ from cvzone.HandTrackingModule import HandDetector
 import cvzone
 import time
 import mediapipe as mp
-
-def arTryOn(dress):
-    stopAR = False
+ stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
     startdistance = None
@@ -16,6 +14,8 @@ def arTryOn(dress):
     scaling = 0
     start_time = time.time()
     capture_duration = 30
+def arTryOn(dress):
+   
     cap = cv2.VideoCapture('TestingVideo3.mp4') #0 for irium 1 for webcam
     cap.set(3,1300)   #width
     cap.set(4,950)    #height
