@@ -89,4 +89,3 @@ def bottomTryOn(video):
             break
     cap.release()
     cv2.destroyAllWindows()
-bottomTryOn('TestingVideo3.mp4')

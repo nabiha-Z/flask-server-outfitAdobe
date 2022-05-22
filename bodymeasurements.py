@@ -66,7 +66,7 @@ def measurements(user):
                 f = 840
                 d = (W * f) / w
             
-            if d < 100:
+            if d > 180:
                 cv2.rectangle(image, (220, 30), (400, 60), (35, 96, 202), 3)
                 cv2.putText(image, f'{int(d)} cm',(50, 90),cv2.FONT_HERSHEY_SIMPLEX, 0.9, (35, 96, 202), 3, cv2.LINE_AA)
             else:
@@ -113,7 +113,7 @@ def measurements(user):
         t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
         s1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x
         t1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y
-        shoulderslength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )
+        shoulderslength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 1
         shoulderslength = round(shoulderslength)
         # shoulderslength1 = int(abs(landmarks[12][1]+landmarks[11][1])/2)
         print("shoulders: ", shoulderslength)

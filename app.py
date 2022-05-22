@@ -4,6 +4,8 @@ from flask_cors import CORS
 from flask import Flask,jsonify,request,abort
 import bodymeasurements
 import mobileMeasurement
+import arTryon
+import bottomTryOn
 # from pathlib import Path
 # import tempfile
 import cv2
@@ -23,7 +25,7 @@ def measurements():
         abort(400)
     print("Dksjdk")
     print(request.json['user'])
-    responseObj = bodymeasurements.measurements("6258b68a5992c70023c5724b")
+    responseObj = bodymeasurements.measurements(request.json['user'])
     print(responseObj)
     # print(responseObj.data)
     print(type(responseObj))
@@ -88,6 +90,16 @@ def mobilemeasurements():
     else:
         print("not detected")
     return check
+
+@app.route("/arTryOn", methods=['POST'])
+def artryon():
+    print("reques: ", request)
+    print("Try on", request.files)
+    dress = request.files['dress']
+    print("dress: ", dress)
+    # print(request.files['mobile-video-upload'])
+
+    # responseObj = arTryOn.tryOn(dress)  
 
 
     

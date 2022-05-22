@@ -6,7 +6,7 @@ import cvzone
 import time
 import mediapipe as mp
 
-def arTryOn():
+def arTryOn(dress):
     stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
@@ -33,7 +33,7 @@ def arTryOn():
         img = cv2.putText(img, "TryOn Screen", (500,80),cv2.FONT_HERSHEY_COMPLEX , 1,(77,0,77), 2)
         if stopAR == False:
             
-            cloth = cv2.imread("dress2.png", cv2.IMREAD_UNCHANGED)
+            cloth = cv2.imread(dress, cv2.IMREAD_UNCHANGED)
             cloth = cv2.resize(cloth, (180,180))
             img.flags.writeable = False
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -90,4 +90,3 @@ def arTryOn():
             break
     cap.release()
     cv2.destroyAllWindows()
-arTryOn()
