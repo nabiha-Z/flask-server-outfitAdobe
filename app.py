@@ -5,7 +5,10 @@ from flask import Flask,jsonify,request,abort
 import bodymeasurements
 import mobileMeasurement
 import arTryon
+import dressTryOn
 import mobileARTryOn
+import mobileBottomTryOn
+import mobileDressTryOn
 import bottomTryOn
 import os
 
@@ -141,30 +144,32 @@ def artryon():
     print(flag)
     dressPath ="dresses/trial_dresses/"+dress+".png"
     print("path: ", dressPath)
-    if(flag == "0"):
+    if(flag == 0):
         response = arTryon.arTryOn(dressPath)
-    
-    else:
-        if(flag == 1):
-            response =bottomTryOn.bottomTryOn(dress)
-    
-
-   
-    
+    elif(flag == 1):
+            response = bottomTryOn.bottomTryOn(dressPath)
+    elif(flag == 2):
+            response = dressTryOn.dressTryOn(dressPath)
     return "true"
 
 @app.route("/mobileArTryOn", methods=['POST'])
 def mobileartryon():
     
-    print(request.json['dress'])
-    dress = request.json['dress']
-    print(dress)
+
+    dress = request.args['dress']
+    flag = request.args['flag']
+    print("flag: ",flag)
     dressPath ="dresses/trial_dresses/"+dress+".png"
     print("path: ", dressPath)
-    response = mobileARTryOn.mobileTryOn('TestingVideo7.mp4',dressPath)
+    uploaded_file=request.files['video']
+    # print("file: ", uploaded_file)
+    if(flag == 0):
+         response = mobileARTryOn.mobileTryOn(uploaded_file,dressPath)
+    elif(flag == 1):
+         response = mobileBottomTryOn.mobileBottomTryOn(uploaded_file,dressPath)
+    else:
+        response = mobileDressTryOn.mobileDressTryOn(uploaded_file,dressPath)
     return "true"
 
-
-    
 if __name__ == "__main__":
     app.run(host='192.168.100.8',port=5000,debug=True)

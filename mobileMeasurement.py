@@ -19,7 +19,7 @@ def mobilemeasurements(uploaded_file,user):
     cap.set(3,850)
     cap.set(4,850)
     start_time = time.time()
-    capture_duration = 6
+    capture_duration = 10
     landmarks = ""
     d=0
     detector = FaceMeshDetector(maxFaces=1)
@@ -37,8 +37,7 @@ def mobilemeasurements(uploaded_file,user):
             
             ret, image = cap.read()
             image = imutils.resize(image, width=350)
-                
-            
+
             # Recolor image to RGB
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
@@ -112,7 +111,7 @@ def mobilemeasurements(uploaded_file,user):
         t2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y
         s1 = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x
         t1 = landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y
-        fullLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 1
+        fullLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 2
         fullLength =round(fullLength)
         print("length: ", fullLength)
 
@@ -129,7 +128,7 @@ def mobilemeasurements(uploaded_file,user):
         s1 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x
         t1 = landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y
         # waistLength =int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
-        waistLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 5
+        waistLength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 ) + 3
         waistLength =round(waistLength)
         
         waistLength = waistLength + waistLength

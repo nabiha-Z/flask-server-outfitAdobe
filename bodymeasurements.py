@@ -96,8 +96,8 @@ def measurements(user):
                     pass
                 
                 mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                                        mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
-                                        mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
+                                        mp_drawing.DrawingSpec(color=(245,117,66), thickness=1, circle_radius=2), 
+                                        mp_drawing.DrawingSpec(color=(245,66,230), thickness=1, circle_radius=2) 
                                         ) 
         
             cv2.imshow('Image', image)
@@ -122,7 +122,7 @@ def measurements(user):
         y2 = landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y
         x1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x
         y1 = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y
-        RightArmlength = (math.hypot(x2 - x1, y2 - y1)) * 39.37
+        RightArmlength = ((math.hypot(x2 - x1, y2 - y1)) * 39.37)+1
         RightArmlength = round(RightArmlength)
 
         s2 = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x

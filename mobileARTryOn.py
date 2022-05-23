@@ -3,6 +3,7 @@ import numpy as np
 from cvzone.HandTrackingModule import HandDetector
 import cvzone
 import time
+import imutils
 import mediapipe as mp
 
 # stopAR = False
@@ -14,7 +15,7 @@ import mediapipe as mp
 # scaling = 0
 # start_time = time.time()
 # capture_duration = 30
-def mobileTryOn(video,dress):
+def mobileTryOn(uploaded_file,dress):
     stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
@@ -23,8 +24,11 @@ def mobileTryOn(video,dress):
     neck_point_yaxis = 500
     scaling = 0
     start_time = time.time()
-    capture_duration = 6
-    cap = cv2.VideoCapture(video) 
+    capture_duration = 10
+    print("uploaded file name: ",uploaded_file.name)
+    uploaded_file.save('user_videos/video.mp4')
+    print("capture")
+    cap = cv2.VideoCapture('user_videos/video.mp4')
     cap.set(3,1300)   #width
     cap.set(4,950)    #height
     cap.set(10,200)
@@ -33,6 +37,7 @@ def mobileTryOn(video,dress):
 
     while (int(time.time() - start_time) < capture_duration):
         success, img = cap.read()
+        img = imutils.resize(img, width=350)
         #1 means horizontal 
         img = cv2.flip(img,1)
         if not success:
@@ -42,7 +47,7 @@ def mobileTryOn(video,dress):
         if stopAR == False:
             
             cloth = cv2.imread(dress, cv2.IMREAD_UNCHANGED)
-            cloth = cv2.resize(cloth, (170,170))
+            cloth = cv2.resize(cloth, (190,160))
             img.flags.writeable = False
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = pose.process(img)
@@ -63,7 +68,7 @@ def mobileTryOn(video,dress):
                         startdistance = length_of_shoulders
                         length_of_shoulders = abs(bodylmlist[12][1]-bodylmlist[11][1])
                         scaling = int((length_of_shoulders-startdistance)/2)
-                        length = bodylmlist[24][2]-13
+                        length = bodylmlist[24][2]-35
                         neck_point_xaxis = int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
                         neck_point_yaxis = int(abs(bodylmlist[12][2]+length)/2)
                     else:

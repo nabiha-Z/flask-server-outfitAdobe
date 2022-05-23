@@ -83,19 +83,23 @@ def angletryon():
                 LS2=LXP3,LYP4
                
 
-                cv2.putText(image, str(data), 
-                            tuple(np.multiply(shoulder, [320, 610]).astype(int)), 
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (30, 247, 237), 2, cv2.LINE_AA
-                                    )
+                # cv2.putText(image, str(data), 
+                #             tuple(np.multiply(shoulder, [320, 610]).astype(int)), 
+                #             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (30, 247, 237), 2, cv2.LINE_AA
+                #                     )
                 
                                     
                 # Line thickness of -1 px
                 thickness = -1
-                if(length<7):
+                if(length<4):
                     cv2.putText(image, str(length), 
                             tuple(np.multiply(elbow, [240, 280]).astype(int)), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (30, 247, 237), 2, cv2.LINE_AA
                                     )     
+                    cv2.putText(image, str(data), 
+                            tuple(np.multiply(shoulder, [320, 610]).astype(int)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (30, 247, 237), 2, cv2.LINE_AA
+                                    )
                     cv2.putText(image, str(data), 
                             tuple(np.multiply(LS1, [320, 610]).astype(int)), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (128, 29, 174), 2, cv2.LINE_AA
