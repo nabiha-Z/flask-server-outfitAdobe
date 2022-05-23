@@ -5,15 +5,15 @@ from cvzone.HandTrackingModule import HandDetector
 import cvzone
 import time
 import mediapipe as mp
-stopAR = False
+
+def bottomTryOn(video):
+    stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
     startdistance = None
     neck_point_xaxis = 500
     neck_point_yaxis = 500
     scaling = 0
-def bottomTryOn(video):
-    
 
     cap = cv2.VideoCapture(video) #0 for irium 1 for webcam
     cap.set(3,1300)   #width

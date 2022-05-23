@@ -11,7 +11,7 @@ import cvzone
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 def mobilemeasurements(uploaded_file,user):
-    
+
     print("uploaded file name: ",uploaded_file.name)
     uploaded_file.save('user_videos/video.mp4')
     print("capture")
@@ -52,9 +52,9 @@ def mobilemeasurements(uploaded_file,user):
             cv2.putText(image, f'{int(capture_duration-(time.time()-start_time))} s',(300, 90),cv2.FONT_HERSHEY_SIMPLEX, 0.9, (305, 96, 202), 3, cv2.LINE_AA) 
             image, faces = detector.findFaceMesh(image, draw=False)
     
-            print("no face detected")
+            # print("no face detected")
             try:
-                print("extracting .... ")
+                # print("extracting .... ")
                 landmarks = results.pose_world_landmarks.landmark
 
             #         # Get coordinates
@@ -79,59 +79,7 @@ def mobilemeasurements(uploaded_file,user):
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                     mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
                                     mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
-                                    ) 
-            # if faces:
-               
-            #     face = faces[0]
-            #     pointLeft = face[145]
-            #     pointRight = face[374]
-            #     # Drawing
-            #     # cv2.line(img, pointLeft, pointRight, (0, 200, 0), 3)
-            #     # cv2.circle(img, pointLeft, 5, (255, 0, 255), cv2.FILLED)
-            #     # cv2.circle(img, pointRight, 5, (255, 0, 255), cv2.FILLED)
-            #     w, _ = detector.findDistance(pointLeft, pointRight)
-            #     W = 6.3
-    
-            # #     # # Finding the Focal Length
-            # #     # d = 50
-            # #     # f = (w*d)/W
-            # #     # print(f)
-
-            # #     # Finding distance
-            #     f = 840
-            #     d = (W * f) / w
-            #     cv2.rectangle(image, (220, 30), (400, 60), (35, 96, 202), 3)
-            #     cv2.putText(image, f'{int(d)} cm',(50, 90),cv2.FONT_HERSHEY_SIMPLEX, 0.9, (35, 96, 202), 3, cv2.LINE_AA)  
-                
-            #     # Extract landmarks
-            #     try:
-                    
-            #         landmarks = results.pose_world_landmarks.landmark
-
-            # #         # Get coordinates
-            #         shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-            #         elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-            #         wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
-
-            # #         # Calculate angle
-            # #         angle = calculate_angle(shoulder, elbow, wrist)
-
-            # #         # Visualize angle
-            # #         cv2.putText(image, str(angle), 
-            # #                     tuple(np.multiply(elbow, [640, 480]).astype(int)), 
-            # #                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
-            # #                             )
-                
-                        
-            #     except:
-            #         print("passsss")
-            #         pass
-                
-            #     mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-            #                             mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
-            #                             mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
-            #                             ) 
-        
+                                    )  
             cv2.imshow('Measurement', image)
 
             if cv2.waitKey(10) & 0xFF == ord('q'):
@@ -210,7 +158,7 @@ def mobilemeasurements(uploaded_file,user):
             "tshirt":tshirt,
             'bottom':bottomLength,
             "waist":waistLength,
-            'user':user
+            'user':user.replace('"','')
         }
         obj = {
             'msg':"true",

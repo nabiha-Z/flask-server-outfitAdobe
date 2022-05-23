@@ -5,7 +5,9 @@ from cvzone.HandTrackingModule import HandDetector
 import cvzone
 import time
 import mediapipe as mp
- stopAR = False
+
+def arTryOn():
+    stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
     startdistance = None
@@ -14,9 +16,7 @@ import mediapipe as mp
     scaling = 0
     start_time = time.time()
     capture_duration = 30
-def arTryOn(dress):
-   
-    cap = cv2.VideoCapture('TestingVideo3.mp4') #0 for irium 1 for webcam
+    cap = cv2.VideoCapture(0) #0 for irium 1 for webcam
     cap.set(3,1300)   #width
     cap.set(4,950)    #height
     cap.set(10,200)
@@ -33,8 +33,8 @@ def arTryOn(dress):
         img = cv2.putText(img, "TryOn Screen", (500,80),cv2.FONT_HERSHEY_COMPLEX , 1,(77,0,77), 2)
         if stopAR == False:
             
-            cloth = cv2.imread(dress, cv2.IMREAD_UNCHANGED)
-            cloth = cv2.resize(cloth, (180,180))
+            cloth = cv2.imread('greenshirt.png', cv2.IMREAD_UNCHANGED)
+            cloth = cv2.resize(cloth, (380,380))
             img.flags.writeable = False
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = pose.process(img)
@@ -90,3 +90,4 @@ def arTryOn(dress):
             break
     cap.release()
     cv2.destroyAllWindows()
+

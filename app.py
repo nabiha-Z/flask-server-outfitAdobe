@@ -5,13 +5,39 @@ from flask import Flask,jsonify,request,abort
 import bodymeasurements
 import mobileMeasurement
 import arTryon
+import mobileARTryOn
 import bottomTryOn
+import os
+
 # from pathlib import Path
 # import tempfile
 import cv2
 app = Flask(__name__)
-cors=CORS()
-cors.init_app(app)
+CORS(app)
+UPLOAD_FOLDER = 'E:/FYP/flask-server-outfitAdobe/dresses'
+ALLOWED_EXTENSIONS = set([ 'png', 'jpg', 'jpeg'])
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+@app.route('/upload', methods=['POST'])
+def fileUpload():
+    target=os.path.join(UPLOAD_FOLDER,'trial_dresses')
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    print("welcome to upload`")
+    filename= request.args['filename']
+    filename = filename + '.png'
+    file = request.files['file']
+
+    # filename = request.files['filename']
+   
+    destination="/".join([target, filename])
+    # print(destination)
+    file.save(destination)
+    # session['uploadFilePath']=destination
+    response="Whatever you wish too return"
+    return "true"
 
 @app.route("/home", methods=['GET'])
 def home():
@@ -77,6 +103,21 @@ def mobilemeasurements():
     # print(responseObj)
     # # print(responseObj.data)
     # print(type(responseObj))
+    # bodymeasurement = {
+    #         'shoulders' :12,
+    #         'fullLength':21,
+    #         'arms':22,
+    #         "knee": 14,
+    #         "tshirt":41,
+    #         'bottom':44,
+    #         "waist":44,
+    #         "user":user.replace('"','')
+    #     }
+    # check="true"
+    # database.db.measurements.insert_one(bodymeasurement)
+    # print("Data added to database")
+
+
     check = "false"
     if(responseObj['msg'] == "true"):
 
@@ -84,19 +125,24 @@ def mobilemeasurements():
         val = json.dumps(responseObj['data'])
         print(val)
         check="true"
-        print("type:", type(val))
         database.db.measurements.insert_one(responseObj['data'])
         print("Data added to database")
     else:
         print("not detected")
     return check
 
-@app.route("/arTryOn", methods=['POST'])
+# user.replace('"','')
+@app.route("/mobileArTryOn", methods=['POST'])
 def artryon():
-    print("reques: ", request)
-    print("Try on", request.files)
-    dress = request.files['dress']
-    print("dress: ", dress)
+    
+    print(request.json['dress'])
+    dress = request.json['dress']
+    print(dress)
+    dressPath ="dresses/trial_dresses/"+dress+".png"
+    print("path: ", dressPath)
+    response = mobileARTryOn.mobileTryOn('TestingVideo7.mp4',dressPath)
+    return "true"
+
     # print(request.files['mobile-video-upload'])
 
     # responseObj = arTryOn.tryOn(dress)  
