@@ -6,7 +6,7 @@ import cvzone
 import time
 import mediapipe as mp
 
-def bottomTryOn(video):
+def bottomTryOn():
     stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
@@ -15,7 +15,7 @@ def bottomTryOn(video):
     neck_point_yaxis = 500
     scaling = 0
 
-    cap = cv2.VideoCapture(video) #0 for irium 1 for webcam
+    cap = cv2.VideoCapture(0) #0 for irium 1 for webcam
     cap.set(3,1300)   #width
     cap.set(4,950)    #height
     cap.set(10,200)
@@ -32,8 +32,8 @@ def bottomTryOn(video):
         img = cv2.putText(img, "TryOn Screen", (500,80),cv2.FONT_HERSHEY_COMPLEX , 1,(77,0,77), 2)
         if stopAR == False:
             
-            cloth = cv2.imread("dresses/jeans2.png", cv2.IMREAD_UNCHANGED)
-            cloth = cv2.resize(cloth, (250,350))
+            cloth = cv2.imread("dresses/trial_dresses/628a98f090c4a16770fa722d.png", cv2.IMREAD_UNCHANGED)
+            cloth = cv2.resize(cloth, (280,380))
             img.flags.writeable = False
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = pose.process(img)
@@ -89,3 +89,5 @@ def bottomTryOn(video):
             break
     cap.release()
     cv2.destroyAllWindows()
+
+bottomTryOn()

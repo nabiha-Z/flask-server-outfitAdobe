@@ -132,8 +132,29 @@ def mobilemeasurements():
     return check
 
 # user.replace('"','')
-@app.route("/mobileArTryOn", methods=['POST'])
+@app.route("/arTryOn", methods=['POST'])
 def artryon():
+    
+    print(request.json['dress'])
+    dress = request.json['dress']
+    flag = request.json['flag']
+    print(flag)
+    dressPath ="dresses/trial_dresses/"+dress+".png"
+    print("path: ", dressPath)
+    if(flag == "0"):
+        response = arTryon.arTryOn(dressPath)
+    
+    else:
+        if(flag == 1):
+            response =bottomTryOn.bottomTryOn(dress)
+    
+
+   
+    
+    return "true"
+
+@app.route("/mobileArTryOn", methods=['POST'])
+def mobileartryon():
     
     print(request.json['dress'])
     dress = request.json['dress']
@@ -142,10 +163,6 @@ def artryon():
     print("path: ", dressPath)
     response = mobileARTryOn.mobileTryOn('TestingVideo7.mp4',dressPath)
     return "true"
-
-    # print(request.files['mobile-video-upload'])
-
-    # responseObj = arTryOn.tryOn(dress)  
 
 
     

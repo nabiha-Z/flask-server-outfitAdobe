@@ -6,7 +6,7 @@ import cvzone
 import time
 import mediapipe as mp
 
-def arTryOn():
+def arTryOn(dress):
     stopAR = False
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) 
@@ -33,8 +33,8 @@ def arTryOn():
         img = cv2.putText(img, "TryOn Screen", (500,80),cv2.FONT_HERSHEY_COMPLEX , 1,(77,0,77), 2)
         if stopAR == False:
             
-            cloth = cv2.imread('greenshirt.png', cv2.IMREAD_UNCHANGED)
-            cloth = cv2.resize(cloth, (380,380))
+            cloth = cv2.imread(dress, cv2.IMREAD_UNCHANGED)
+            cloth = cv2.resize(cloth, (415,415))
             img.flags.writeable = False
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             results = pose.process(img)
@@ -55,7 +55,7 @@ def arTryOn():
                         startdistance = length_of_shoulders
                         length_of_shoulders = abs(bodylmlist[12][1]-bodylmlist[11][1])
                         scaling = int((length_of_shoulders-startdistance)/2)
-                        length = bodylmlist[24][2]-15
+                        length = bodylmlist[24][2]-28
                         neck_point_xaxis = int(abs(bodylmlist[12][1]+bodylmlist[11][1])/2)
                         neck_point_yaxis = int(abs(bodylmlist[12][2]+length)/2)
                     else:
@@ -90,4 +90,4 @@ def arTryOn():
             break
     cap.release()
     cv2.destroyAllWindows()
-
+    return "true"
