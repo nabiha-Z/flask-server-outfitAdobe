@@ -37,7 +37,7 @@ def fileUpload():
    
     destination="/".join([target, filename])
     # print(destination)
-    file.save(destination)
+    file.save(destination)  
     # session['uploadFilePath']=destination
     response="Whatever you wish too return"
     return "true"
@@ -172,4 +172,4 @@ def mobileartryon():
     return "true"
 
 if __name__ == "__main__":
-    app.run(host='192.168.100.8',port=5000,debug=True)
+    app.run(host='10.113.54.104',port=5000,debug=True)

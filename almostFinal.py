@@ -13,12 +13,15 @@ import time
 import qrcode
 import pyautogui
 import requests
+
 import os
 import face_recognition
 import mediapipe as mp
 
 CustomerShopping = None
 Products = []
+
+
 productImagesFound = []
 productToAugment = None
 productIterator = 0

@@ -24,7 +24,7 @@ mp_pose = mp.solutions.pose
 
 
 def calculate_angle(L,R,h,w):
-    # print("left shoulder x-axis: ", L[0]*w)
+    #print("left shoulder x-axis: ", L[0]*w)
     # print("left shoulder y-axis: ", L[1]*h)
     s2=L[0]
     t2=L[1]
@@ -32,6 +32,7 @@ def calculate_angle(L,R,h,w):
     t1=R[1]
     shoulderslength = ((math.hypot(s2 - s1, t2 - t1)) * 39.37 )
     shoulderslength = round(shoulderslength)
+    print(shoulderslength)
     return shoulderslength
 
 def angletryon():
@@ -75,10 +76,10 @@ def angletryon():
                 endAngle = 360
                 color = (255, 0, 0)
                 data="H"
-                LXP1=(shoulder[0])-0.05
+                LXP1=(shoulder[0])-0.12
                 LYP2=(shoulder[1])
                 LS1=LXP1,LYP2
-                LXP3=(shoulder[0])+0.05
+                LXP3=(shoulder[0])+0.02
                 LYP4=(shoulder[1])
                 LS2=LXP3,LYP4
                
